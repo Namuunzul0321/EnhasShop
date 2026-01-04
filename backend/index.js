@@ -20,41 +20,23 @@ const app = express();
 // ======================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// ===== CORS тохиргоо =====
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://enhas-shop8199.vercel.app", // FRONTEND_URL-г яг string-ээр оруул
-];
-
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Postman эсвэл server-to-server request-д origin байхгүй байж болно
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
+      const allowedOrigins = [
+        "http://localhost:3000",
+        process.env.FRONTEND_URL,
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// Preflight request-д ижил cors тохиргоо
-app.options(
-  "*",
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.options("*", cors());
 // ======================
 // MongoDB холболт
 // ======================
