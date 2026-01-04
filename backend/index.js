@@ -6,6 +6,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+require("dotenv").config(); // .env файлыг уншина
+
 const app = express();
 
 // ======================
@@ -14,12 +16,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-require("dotenv").config();
+
 // ======================
 // MongoDB холболт
 // ======================
 mongoose
-  .connect("mongodb://127.0.0.1:27017/EnhaS")
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
@@ -34,8 +36,82 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: String, default: "" },
   isAdmin: { type: Boolean, default: false },
+
+  resetToken: String,
+  resetTokenExpire: Date,
+});
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 const User = mongoose.model("User", userSchema);
+//PASSWORD
+app.post("/api/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.json({
+        message: "Хэрэв бүртгэлтэй бол имэйл илгээгдэнэ",
+      });
+
+    const token = crypto.randomBytes(32).toString("hex");
+
+    user.resetToken = token;
+    user.resetTokenExpire = Date.now() + 1000 * 60 * 15; // 15 минут
+    await user.save();
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+
+    await transporter.sendMail({
+      to: user.email,
+      subject: "Нууц үг сэргээх",
+      html: `
+        <p>Нууц үг сэргээх линк:</p>
+        <a href="${resetLink}">${resetLink}</a>
+        <p>15 минутын дотор хүчинтэй</p>
+      `,
+    });
+
+    res.json({ message: "Нууц үг сэргээх линк илгээгдлээ" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Алдаа гарлаа" });
+  }
+});
+app.post("/api/reset-password", async (req, res) => {
+  try {
+    const { token, password } = req.body;
+
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpire: { $gt: Date.now() },
+    });
+
+    if (!user)
+      return res.status(400).json({
+        message: "Token хүчингүй эсвэл хугацаа дууссан",
+      });
+
+    user.password = await bcrypt.hash(password, 10);
+    user.resetToken = undefined;
+    user.resetTokenExpire = undefined;
+
+    await user.save();
+
+    res.json({ message: "Нууц үг амжилттай шинэчлэгдлээ" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Алдаа гарлаа" });
+  }
+});
 
 // SCENT
 const scentSchema = new mongoose.Schema({
@@ -53,7 +129,7 @@ const Color = mongoose.model("Color", colorSchema);
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: String,
-  images: String, // comma-separated
+  images: String,
   price: String,
   scents: [String],
   colors: [String],
@@ -65,11 +141,7 @@ const Product = mongoose.model("Product", productSchema);
 const orderSchema = new mongoose.Schema({
   userEmail: { type: String, required: true },
   phone: { type: String, required: true },
-  address: {
-    district: String,
-    khoroo: String,
-    details: String,
-  },
+  address: { district: String, khoroo: String, details: String },
   items: [
     {
       productId: String,
@@ -312,6 +384,19 @@ app.post("/api/products", upload.array("images", 5), async (req, res) => {
     res.status(500).json({ message: "Product нэмэхэд алдаа" });
   }
 });
+// DELETE product
+app.delete("/api/products/:id", async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product)
+      return res.status(404).json({ message: "Бүтээгдэхүүн олдсонгүй" });
+
+    res.json({ message: "Бүтээгдэхүүн амжилттай устлаа" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Product устгахад алдаа гарлаа" });
+  }
+});
 
 // ---------- ORDERS ----------
 app.get("/api/orders", async (_, res) => {
@@ -398,7 +483,7 @@ app.get("/api/orders/user/:email", async (req, res) => {
 // ======================
 // Server
 // ======================
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () =>
   console.log(`Backend running on http://localhost:${PORT}`)
 );

@@ -218,6 +218,8 @@ export const Cart = () => {
   const [district, setDistrict] = useState("");
   const [khoroo, setKhoroo] = useState("");
   const [details, setDetails] = useState("");
+  const [openDistrict, setOpenDistrict] = useState(false);
+  const [openKhoroo, setOpenKhoroo] = useState(false);
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
@@ -301,8 +303,9 @@ export const Cart = () => {
     return (
       <div>
         <Header />
-        <div className="h-[60vh] flex items-center justify-center text-gray-500">
+        <div className="h-[60vh] flex items-center justify-center text-gray-500 flex-col">
           🛒 Сагс хоосон байна
+          <div>Та захиалгаа профайл хэсгээс харна уу</div>
         </div>
       </div>
     );
@@ -325,7 +328,6 @@ export const Cart = () => {
             <div className="flex-1">
               <h3 className="font-semibold">{item.name}</h3>
 
-              {/* Сонгосон өнгө ба үнэр */}
               {/* Сонгосон өнгө ба үнэр */}
               <div className="mt-1 text-sm text-gray-600">
                 {item.color && (
@@ -372,36 +374,64 @@ export const Cart = () => {
             className="border px-3 py-2 rounded mb-2 w-full"
           />
 
-          <select
-            value={district}
-            onChange={(e) => {
-              setDistrict(e.target.value);
-              setKhoroo("");
-            }}
-            className="border px-3 py-2 rounded mb-2 w-full"
-          >
-            <option value="">Дүүрэг сонгоно уу</option>
-            {Object.keys(districts).map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
+          <div className="relative mb-2">
+            <button
+              onClick={() => {
+                setOpenDistrict(!openDistrict);
+                setOpenKhoroo(false);
+              }}
+              className="w-full border px-3 py-2 rounded text-left bg-white"
+            >
+              {district || "Дүүрэг сонгоно уу"}
+            </button>
 
-          <select
-            value={khoroo}
-            onChange={(e) => setKhoroo(e.target.value)}
-            className="border px-3 py-2 rounded mb-2 w-full"
-            disabled={!district}
-          >
-            <option value="">Хороо сонгоно уу</option>
-            {district &&
-              districts[district].map((k) => (
-                <option key={k} value={k}>
-                  {k}
-                </option>
-              ))}
-          </select>
+            {openDistrict && (
+              <div className="absolute z-20 mt-1 w-full max-h-48 overflow-y-auto border bg-white rounded shadow">
+                {Object.keys(districts).map((d) => (
+                  <div
+                    key={d}
+                    onClick={() => {
+                      setDistrict(d);
+                      setKhoroo("");
+                      setOpenDistrict(false);
+                    }}
+                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {d}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="relative mb-2">
+            <button
+              onClick={() => district && setOpenKhoroo(!openKhoroo)}
+              disabled={!district}
+              className={`w-full border px-3 py-2 rounded text-left bg-white ${
+                !district ? "bg-gray-100 cursor-not-allowed" : ""
+              }`}
+            >
+              {khoroo || "Хороо сонгоно уу"}
+            </button>
+
+            {openKhoroo && district && (
+              <div className="absolute z-20 mt-1 w-full max-h-48 overflow-y-auto border bg-white rounded shadow">
+                {districts[district].map((k) => (
+                  <div
+                    key={k}
+                    onClick={() => {
+                      setKhoroo(k);
+                      setOpenKhoroo(false);
+                    }}
+                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {k}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <input
             type="text"

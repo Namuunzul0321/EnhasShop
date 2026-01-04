@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Env файлууд
+.env
+
+# Uploaded files
+uploads/
+
+# Logs
+logs/

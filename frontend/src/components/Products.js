@@ -87,7 +87,7 @@ export const Products = () => {
       : products.filter((p) => p.category === filterCategory);
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center mt-5 md:mt-10">
       <div className="max-w-[1575px] w-full px-4">
         <h2 className="font-bold text-[32px] mb-6 text-center sm:text-left">
           Бүтээгдэхүүнүүд

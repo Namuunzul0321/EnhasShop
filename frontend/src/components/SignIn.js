@@ -94,6 +94,14 @@ export const SignIn = () => {
               Бүртгэл үүсгэх
             </a>
           </div>
+          <div className="mt-2 text-center">
+            <a
+              href="/forgot"
+              className="text-green-600 hover:underline text-sm"
+            >
+              Нууц үг мартсан уу?
+            </a>
+          </div>
         </div>
       </div>
     </div>

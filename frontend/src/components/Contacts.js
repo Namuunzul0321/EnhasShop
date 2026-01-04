@@ -72,7 +72,7 @@ export const Contacts = () => {
 
       {/* Footer */}
       <footer className="bg-gray-100 text-gray-600 text-center py-4">
-        &copy; 2025 Таны Компани. Бүх эрх хуулиар хамгаалагдсан.
+        &copy; 2025
       </footer>
     </div>
   );
