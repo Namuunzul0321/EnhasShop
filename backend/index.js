@@ -476,4 +476,4 @@ app.post("/api/colors", async (req, res) => {
 // ======================
 // Server
 // ======================
-app.listen(PORT, () => console.log(`Backend running on ${BACKEND_URL}`));
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
