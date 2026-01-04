@@ -9,10 +9,12 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const handleSubmit = async () => {
     if (!password) return alert("Нууц үг оруулна уу");
     try {
-      const res = await fetch("http://localhost:4000/api/reset-password", {
+      const res = await fetch(`${BACKEND_URL}/api/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),

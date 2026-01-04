@@ -20,9 +20,11 @@ export const Products = () => {
   const [editColors, setEditColors] = useState([]);
   const [editCategory, setEditCategory] = useState("лаа");
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/products");
+      const res = await fetch(`${BACKEND_URL}/api/products`);
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -69,10 +71,9 @@ export const Products = () => {
   const handleDeleteProduct = async (productId) => {
     if (!confirm("Энэ бүтээгдэхүүнийг устгах уу?")) return;
     try {
-      const res = await fetch(
-        `http://localhost:4000/api/products/${productId}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/products/${productId}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error("Устгах явцад алдаа гарлаа");
       setProducts(products.filter((p) => p._id !== productId));
       alert("Бүтээгдэхүүн устлаа");
@@ -315,7 +316,7 @@ export const Products = () => {
 
                     try {
                       const res = await fetch(
-                        `http://localhost:4000/api/products/${selectedProductForEdit._id}`,
+                        `${BACKEND_URL}/api/products/${selectedProductForEdit._id}`,
                         { method: "PUT", body: formData }
                       );
                       if (!res.ok) throw new Error("Засах явцад алдаа гарлаа");

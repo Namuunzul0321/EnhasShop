@@ -9,6 +9,8 @@ export const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const validate = () => {
     const newErrors = { email: "", password: "" };
     if (!email) newErrors.email = "Имэйл хоосон байна";
@@ -20,7 +22,7 @@ export const SignIn = () => {
   const handleSubmit = async () => {
     if (!validate()) return;
     try {
-      const res = await fetch("http://localhost:4000/api/signin", {
+      const res = await fetch(`${BACKEND_URL}/api/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

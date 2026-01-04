@@ -15,6 +15,8 @@ export const SignUp = () => {
     passwordConfirm: "",
   });
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const validate = () => {
     const newErrors = { email: "", password: "", passwordConfirm: "" };
     if (!email) newErrors.email = "Имэйл хоосон байна";
@@ -31,7 +33,7 @@ export const SignUp = () => {
   const handleSubmit = async () => {
     if (!validate()) return;
     try {
-      const res = await fetch("http://localhost:4000/api/signup", {
+      const res = await fetch(`${BACKEND_URL}/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

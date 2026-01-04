@@ -5,10 +5,12 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const handleSubmit = async () => {
     if (!email) return alert("Имэйлээ оруулна уу");
     try {
-      const res = await fetch("http://localhost:4000/api/forgot-password", {
+      const res = await fetch(`${BACKEND_URL}/api/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

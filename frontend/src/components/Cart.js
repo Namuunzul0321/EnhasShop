@@ -221,6 +221,8 @@ export const Cart = () => {
   const [openDistrict, setOpenDistrict] = useState(false);
   const [openKhoroo, setOpenKhoroo] = useState(false);
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart") || "[]"));
   }, []);
@@ -259,7 +261,7 @@ export const Cart = () => {
       return alert("Бүх хаягийн талбарыг бөглөнө үү");
 
     try {
-      const res = await fetch("http://localhost:4000/api/orders", {
+      const res = await fetch(`${BACKEND_URL}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

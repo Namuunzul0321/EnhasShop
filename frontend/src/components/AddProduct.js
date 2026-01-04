@@ -7,6 +7,8 @@ import { Header } from "./Header";
 export const AddProducts = () => {
   const router = useRouter();
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -24,12 +26,12 @@ export const AddProducts = () => {
   const [newColor, setNewColor] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/scents")
+    fetch(`${BACKEND_URL}/api/scents`)
       .then((res) => res.json())
       .then((data) => setAllScents(data))
       .catch(() => setAllScents([]));
 
-    fetch("http://localhost:4000/api/colors")
+    fetch(`${BACKEND_URL}/api/colors`)
       .then((res) => res.json())
       .then((data) => setAllColors(data))
       .catch(() => setAllColors([]));
@@ -58,7 +60,7 @@ export const AddProducts = () => {
     if (!trimmed) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/scents", {
+      const res = await fetch(`${BACKEND_URL}/api/scents`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: trimmed }),
@@ -82,7 +84,7 @@ export const AddProducts = () => {
     if (!trimmed) return;
 
     try {
-      const res = await fetch("http://localhost:4000/api/colors", {
+      const res = await fetch(`${BACKEND_URL}/api/colors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: trimmed }),
@@ -120,7 +122,7 @@ export const AddProducts = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:4000/api/products", {
+      const res = await fetch(`${BACKEND_URL}/api/products`, {
         method: "POST",
         body: formData,
       });

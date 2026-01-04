@@ -25,7 +25,7 @@ export const Contacts = () => {
                 href="tel:+97699112233"
                 className="text-green-600 hover:underline"
               >
-                +976 9911 2233
+                +976 88444343
               </a>
             </p>
             <p className="text-gray-600">
@@ -34,12 +34,12 @@ export const Contacts = () => {
                 href="mailto:info@example.com"
                 className="text-green-600 hover:underline"
               >
-                info@example.com
+                namuk0321@gmail.com
               </a>
             </p>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Form
           <div className="bg-white rounded-xl shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">
               Мессеж илгээх
@@ -66,7 +66,7 @@ export const Contacts = () => {
                 Илгээх
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
       </main>
 

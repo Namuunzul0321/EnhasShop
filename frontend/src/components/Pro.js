@@ -9,7 +9,9 @@ export const Pro = () => {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all"); // filter нэмэгдсэн
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -26,7 +28,7 @@ export const Pro = () => {
 
   const fetchUser = async (id) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/users/${id}`);
+      const res = await fetch(`${BACKEND_URL}/api/users/${id}`);
       if (!res.ok) throw new Error("Хэрэглэгчийн мэдээлэл авахад алдаа гарлаа");
       const data = await res.json();
       setUserData({ email: data.email, phone: data.phone || "" });
@@ -41,7 +43,7 @@ export const Pro = () => {
 
   const fetchOrders = async (email) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/orders/user/${email}`);
+      const res = await fetch(`${BACKEND_URL}/api/orders/user/${email}`);
       if (!res.ok) throw new Error("Захиалгын түүх авахад алдаа гарлаа");
       const data = await res.json();
       setOrders(data);
@@ -52,7 +54,7 @@ export const Pro = () => {
 
   const saveUser = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+      const res = await fetch(`${BACKEND_URL}/api/users/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),

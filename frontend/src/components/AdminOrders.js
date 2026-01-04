@@ -11,6 +11,8 @@ export default function AdminOrders() {
   const [loadingUser, setLoadingUser] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
 
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -21,7 +23,7 @@ export default function AdminOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/orders");
+      const res = await fetch(`${BACKEND_URL}/api/orders`);
       const data = await res.json();
       setOrders(data);
     } catch (err) {
@@ -31,7 +33,7 @@ export default function AdminOrders() {
 
   const updateStatus = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/orders/${orderId}`, {
+      const res = await fetch(`${BACKEND_URL}/api/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -46,15 +48,11 @@ export default function AdminOrders() {
   const viewUserProfile = async (email) => {
     try {
       setLoadingUser(true);
-      const resUser = await fetch(
-        `http://localhost:4000/api/users/email/${email}`
-      );
+      const resUser = await fetch(`${BACKEND_URL}/api/users/email/${email}`);
       const userData = await resUser.json();
       setSelectedUser(userData);
 
-      const resOrders = await fetch(
-        `http://localhost:4000/api/orders/user/${email}`
-      );
+      const resOrders = await fetch(`${BACKEND_URL}/api/orders/user/${email}`);
       const ordersData = await resOrders.json();
       setUserOrders(ordersData);
       setLoadingUser(false);
