@@ -23,7 +23,9 @@ export default function AdminOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/orders`);
+      const res = await fetch(`${BACKEND_URL}/api/orders`, {
+        credentials: "include",
+      });
       const data = await res.json();
       setOrders(data);
     } catch (err) {
@@ -36,6 +38,7 @@ export default function AdminOrders() {
       const res = await fetch(`${BACKEND_URL}/api/orders/${orderId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) throw new Error("Статус update хийхэд алдаа");
@@ -48,11 +51,15 @@ export default function AdminOrders() {
   const viewUserProfile = async (email) => {
     try {
       setLoadingUser(true);
-      const resUser = await fetch(`${BACKEND_URL}/api/users/email/${email}`);
+      const resUser = await fetch(`${BACKEND_URL}/api/users/email/${email}`, {
+        credentials: "include",
+      });
       const userData = await resUser.json();
       setSelectedUser(userData);
 
-      const resOrders = await fetch(`${BACKEND_URL}/api/orders/user/${email}`);
+      const resOrders = await fetch(`${BACKEND_URL}/api/orders/user/${email}`, {
+        credentials: "include",
+      });
       const ordersData = await resOrders.json();
       setUserOrders(ordersData);
       setLoadingUser(false);

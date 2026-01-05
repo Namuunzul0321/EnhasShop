@@ -24,7 +24,9 @@ export const Products = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/api/products`);
+      const res = await fetch(`${BACKEND_URL}/api/products`, {
+        credentials: "include",
+      });
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -73,6 +75,7 @@ export const Products = () => {
     try {
       const res = await fetch(`${BACKEND_URL}/api/products/${productId}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!res.ok) throw new Error("Устгах явцад алдаа гарлаа");
       setProducts(products.filter((p) => p._id !== productId));

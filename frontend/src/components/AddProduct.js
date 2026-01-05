@@ -26,12 +26,12 @@ export const AddProducts = () => {
   const [newColor, setNewColor] = useState("");
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/scents`)
+    fetch(`${BACKEND_URL}/api/scents`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAllScents(data))
       .catch(() => setAllScents([]));
 
-    fetch(`${BACKEND_URL}/api/colors`)
+    fetch(`${BACKEND_URL}/api/colors`, { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAllColors(data))
       .catch(() => setAllColors([]));
@@ -63,6 +63,7 @@ export const AddProducts = () => {
       const res = await fetch(`${BACKEND_URL}/api/scents`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name: trimmed }),
       });
       const data = await res.json();
@@ -87,6 +88,7 @@ export const AddProducts = () => {
       const res = await fetch(`${BACKEND_URL}/api/colors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name: trimmed }),
       });
       const data = await res.json();
@@ -124,6 +126,7 @@ export const AddProducts = () => {
     try {
       const res = await fetch(`${BACKEND_URL}/api/products`, {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
       const data = await res.json();

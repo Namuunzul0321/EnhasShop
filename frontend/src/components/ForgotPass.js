@@ -13,6 +13,7 @@ export default function ForgotPassword() {
       const res = await fetch(`${BACKEND_URL}/api/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
