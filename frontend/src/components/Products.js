@@ -175,7 +175,7 @@ export const Products = () => {
         {/* PRODUCT DETAIL MODAL */}
         {selectedProduct && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative">
+            <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative mt-10">
               <button
                 onClick={() => setSelectedProduct(null)}
                 className="absolute top-3 right-3 text-xl"
