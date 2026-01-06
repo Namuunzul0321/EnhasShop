@@ -129,6 +129,10 @@ const transporter = nodemailer.createTransport({
 
 // Test
 app.get("/api/hello", (_, res) => res.json({ message: "Hello from backend!" }));
+// ---------- HEALTH ----------
+app.get("/health", (_, res) => {
+  res.status(200).send("OK");
+});
 
 // ---------- AUTH ----------
 app.post("/api/signup", async (req, res) => {
