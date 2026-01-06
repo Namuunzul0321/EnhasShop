@@ -148,7 +148,7 @@ export const Products = () => {
               )}
 
               <img
-                src={p.images?.split(",")[0]}
+                src={p.images}
                 alt={p.name}
                 className="w-full aspect-square object-cover rounded-t-2xl"
               />
@@ -184,7 +184,7 @@ export const Products = () => {
               </button>
 
               <img
-                src={selectedProduct.images?.split(",")[0]}
+                src={selectedProduct.images}
                 className="w-full h-75 object-cover rounded-lg mb-4"
               />
               <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
