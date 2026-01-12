@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -88,35 +83,24 @@ export const Header = () => {
             </button>
 
             {/* CART */}
-            <HoverCard>
-              <HoverCardTrigger>
-                {" "}
-                <Link
-                  href="/cart"
-                  className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                >
-                  🛒
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              </HoverCardTrigger>
-              <HoverCardContent>Сагс</HoverCardContent>
-            </HoverCard>
+            <Link
+              href="/cart"
+              className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              🛒
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
 
-            <HoverCard>
-              <HoverCardTrigger>
-                <Link
-                  href="/userOrders"
-                  className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                >
-                  📦
-                </Link>
-              </HoverCardTrigger>
-              <HoverCardContent>Захиалгууд</HoverCardContent>
-            </HoverCard>
+            <Link
+              href="/userOrders"
+              className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition"
+            >
+              Захиалгууд
+            </Link>
 
             {/* ADMIN BUTTONS */}
             {isAdmin && (
@@ -139,18 +123,12 @@ export const Header = () => {
             {/* USER DROPDOWN */}
             {isLoggedIn ? (
               <div className="relative">
-                <HoverCard>
-                  <HoverCardTrigger>
-                    <button
-                      onClick={() => setDropdownOpen(!dropdownOpen)}
-                      className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                    >
-                      👤
-                    </button>
-                  </HoverCardTrigger>
-                  <HoverCardContent>Профайл</HoverCardContent>
-                </HoverCard>
-
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                  Профайл
+                </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded shadow-lg py-2 flex flex-col">
                     <Link
@@ -171,7 +149,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/sign-in"
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition"
               >
                 Нэвтрэх
               </Link>
