@@ -95,6 +95,13 @@ export const Header = () => {
               )}
             </Link>
 
+            <Link
+              href="/userOrders"
+              className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              Захиалгууд
+            </Link>
+
             {/* ADMIN BUTTONS */}
             {isAdmin && (
               <>
@@ -108,7 +115,7 @@ export const Header = () => {
                   onClick={() => router.push("/adminOrders")}
                   className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
                 >
-                  Захиалгууд
+                  Нийт захиалгууд
                 </button>
               </>
             )}

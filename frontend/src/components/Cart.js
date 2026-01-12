@@ -308,7 +308,7 @@ export const Cart = () => {
         <Header />
         <div className="h-[60vh] flex items-center justify-center text-gray-500 flex-col">
           🛒 Сагс хоосон байна
-          <div>Та захиалгаа профайл хэсгээс харна уу</div>
+          <div>Та захиалгын төлөвөө захиалгууд хэсгээс харна уу</div>
         </div>
       </div>
     );
@@ -452,7 +452,7 @@ export const Cart = () => {
         <div className="bg-white rounded-xl shadow p-6 mb-6">
           <div>
             <h2 className="font-semibold text-lg mb-2">Дансны мэдээлэл</h2>
-            <h2 className="font-semibold text-lg mb-2 text-red-500">
+            <h2 className="text-red-500">
               (Та төлбөрөө бүрэн шилжүүлсэн тохиолдолд захиалга баталгаажна. )
             </h2>
           </div>

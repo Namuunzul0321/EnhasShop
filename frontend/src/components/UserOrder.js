@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Header } from "./Header";
 
-export const Pro = () => {
+export const UserOrder = () => {
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState({ email: "", phone: "" });
   const [orders, setOrders] = useState([]);
@@ -103,72 +103,10 @@ export const Pro = () => {
   return (
     <div>
       <Header />
-      <div className="min-h-screen flex flex-col items-center p-4">
-        {/* Профайл */}
-        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 mt-10">
-          <h1 className="text-2xl font-bold mb-4 text-center text-green-600">
-            Хэрэглэгчийн профайл
-          </h1>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-gray-600 font-medium">Имэйл</label>
-              <input
-                type="email"
-                value={userData.email}
-                disabled={!editMode}
-                onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, email: e.target.value }))
-                }
-                className={`border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 ${
-                  !editMode ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-gray-600 font-medium">Утас</label>
-              <input
-                type="text"
-                value={userData.phone}
-                disabled={!editMode}
-                onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, phone: e.target.value }))
-                }
-                className={`border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 ${
-                  !editMode ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              {editMode ? (
-                <>
-                  <button
-                    onClick={saveUser}
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-600 transition"
-                  >
-                    Хадгалах
-                  </button>
-                  <button
-                    onClick={() => setEditMode(false)}
-                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-                  >
-                    Болих
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => setEditMode(true)}
-                  className="bg-blue-500 text-white w-full py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
-                >
-                  Засах
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-
+      <div className="min-h-screen flex flex-col items-center p-4 bg-gray-100">
         {/* Захиалгын түүх */}
         <div className="w-full max-w-3xl mt-8">
-          <h2 className="text-black text-xl font-bold mb-4">Таны захиалгууд</h2>
+          <h2 className="text-xl font-bold mb-4">Таны захиалгууд</h2>
 
           {/* Status filter */}
           <div className="flex gap-2 mb-4 flex-wrap">
