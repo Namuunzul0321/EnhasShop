@@ -495,6 +495,9 @@ export const Cart = () => {
               Copy
             </button>
           </div>
+          <h2 className="text-red-500">
+            Та гүйлгээний утга дээр утасны дугаараа бичнэ үү
+          </h2>
         </div>
 
         <button
