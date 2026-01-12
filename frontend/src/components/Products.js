@@ -191,36 +191,37 @@ export const Products = () => {
               >
                 ✖
               </button>
-
-              {/* MAIN IMAGE */}
-              <img
-                src={selectedProduct.images?.[currentImage]}
-                className="w-full h-75 object-cover object-center rounded-lg mb-4"
-              />
-              {/* THUMBNAILS */}
-              <div className="flex gap-2 mt-2">
-                {selectedProduct.images?.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    onClick={() => setCurrentImage(i)}
-                    className={`w-16 h-16 object-cover rounded cursor-pointer border ${
-                      currentImage === i
-                        ? "border-green-500"
-                        : "border-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
               <div className="flex">
+                {/* MAIN IMAGE */}
                 <div>
-                  <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
-                  <p className="text-gray-700">{selectedProduct.description}</p>
+                  <img
+                    src={selectedProduct.images?.[currentImage]}
+                    className="w-full h-75 object-cover object-center rounded-lg mb-4"
+                  />
                 </div>
-                <p className="text-red-500 font-bold mt-2">
-                  {selectedProduct.price}₮
-                </p>
+                {/* THUMBNAILS */}
+                <div className="flex gap-2 mt-2">
+                  {selectedProduct.images?.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      onClick={() => setCurrentImage(i)}
+                      className={`w-16 h-16 object-cover rounded cursor-pointer border ${
+                        currentImage === i
+                          ? "border-green-500"
+                          : "border-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
+
+              <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
+              <p className="text-gray-700">{selectedProduct.description}</p>
+              <p className="text-red-500 font-bold mt-2">
+                {selectedProduct.price}₮
+              </p>
+
               {/* Үнэр сонгох */}
               {selectedProduct.category === "лаа" && (
                 <div className="mb-4">
