@@ -69,7 +69,7 @@ export const AddProducts = () => {
       return alert("Нэр болон үнийг заавал оруулна уу");
     }
 
-    if (!files || files.length === 0) {
+    if (files.length === 0) {
       return alert("Дор хаяж 1 зураг оруулна уу");
     }
 
@@ -87,7 +87,7 @@ export const AddProducts = () => {
     formData.append("scents", JSON.stringify(newProduct.scents));
     formData.append("colors", JSON.stringify(newProduct.colors));
 
-    Array.from(files).forEach((file) => {
+    files.forEach((file) => {
       formData.append("images", file);
     });
 
@@ -97,14 +97,9 @@ export const AddProducts = () => {
         body: formData,
       });
 
-      const text = await res.text();
+      if (!res.ok) throw new Error("Product нэмэхэд алдаа гарлаа");
 
-      if (!res.ok) {
-        console.error(text);
-        throw new Error("Product нэмэхэд алдаа гарлаа");
-      }
-
-      JSON.parse(text); // backend JSON OK гэдгийг батална
+      await res.json();
       router.push("/");
     } catch (err) {
       alert(err.message);
@@ -149,8 +144,10 @@ export const AddProducts = () => {
             }
             className="w-full border p-2 rounded"
           />
+
+          {/* CATEGORY */}
           <div>
-            <p className="font-medium mb-2">📦 Ангилал сонгох</p>
+            <p className="font-medium mb-2">📦 Ангилал</p>
             <div className="flex gap-2">
               {["лаа", "decor"].map((cat) => (
                 <button
@@ -162,7 +159,7 @@ export const AddProducts = () => {
                   className={`px-4 py-2 rounded-full border ${
                     newProduct.category === cat
                       ? "bg-green-500 text-white"
-                      : "bg-white hover:border-green-400"
+                      : "bg-white"
                   }`}
                 >
                   {cat}
@@ -171,88 +168,40 @@ export const AddProducts = () => {
             </div>
           </div>
 
-          {/* SCENTS */}
-          {newProduct.category === "лаа" && (
-            <div>
-              <p className="font-medium mb-2">🌸 Үнэр сонгох</p>
-              <div className="flex flex-wrap gap-2 mb-2">
-                {allScents.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => toggleScent(s)}
-                    className={`px-4 py-2 border rounded-full ${
-                      newProduct.scents.includes(s)
-                        ? "bg-green-500 text-white"
-                        : "bg-white hover:border-green-400"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Шинэ үнэр"
-                  value={newScent}
-                  onChange={(e) => setNewScent(e.target.value)}
-                  className="flex-1 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
-                />
-                <button
-                  onClick={addNewScent}
-                  className="px-4 py-2 bg-green-500 text-white rounded-xl"
-                >
-                  Нэмэх
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* COLORS */}
+          {/* IMAGES */}
           <div>
-            <p className="font-medium mb-2">🎨 Өнгө сонгох</p>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {allColors.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => toggleColor(c)}
-                  className={`px-4 py-2 border rounded-full ${
-                    newProduct.colors.includes(c)
-                      ? "bg-green-500 text-white"
-                      : "bg-white hover:border-green-400"
-                  }`}
-                >
-                  {c}
-                </button>
+            <p className="font-medium mb-2">📷 Зураг (max 5)</p>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => {
+                const selected = Array.from(e.target.files);
+                setFiles((prev) => [...prev, ...selected].slice(0, 5));
+                e.target.value = "";
+              }}
+            />
+
+            {/* PREVIEW */}
+            <div className="flex gap-2 flex-wrap mt-3">
+              {files.map((file, i) => (
+                <div key={i} className="relative">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    className="w-20 h-20 object-cover rounded border"
+                  />
+                  <button
+                    onClick={() =>
+                      setFiles((prev) => prev.filter((_, idx) => idx !== i))
+                    }
+                    className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1"
+                  >
+                    ✖
+                  </button>
+                </div>
               ))}
             </div>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Шинэ өнгө"
-                value={newColor}
-                onChange={(e) => setNewColor(e.target.value)}
-                className="flex-1 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
-              />
-              <button
-                onClick={addNewColor}
-                className="px-4 py-2 bg-green-500 text-white rounded-xl"
-              >
-                Нэмэх
-              </button>
-            </div>
           </div>
-
-          {/* IMAGES */}
-          <p className="font-medium mb-2">📷 Зураг</p>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={(e) => setFiles(e.target.files)}
-          />
 
           <button
             disabled={loading}
