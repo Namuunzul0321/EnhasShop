@@ -113,9 +113,6 @@ export const AddProducts = () => {
     }
   };
 
-  // ======================
-  // UI
-  // ======================
   return (
     <div>
       <Header />
