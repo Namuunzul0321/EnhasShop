@@ -2,11 +2,24 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("./cloudinary");
+const multer = require("multer");
+
+// Cloudinary Storage тохируулах
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "enhas-shop", // хүссэн folder
+    allowed_formats: ["jpg", "jpeg", "png"],
+    public_id: (req, file) => Date.now() + "-" + file.originalname,
+  },
+});
+
+const upload = multer({ storage });
 
 require("dotenv").config(); // .env файлыг уншина
 const BACKEND_URL = process.env.BACKEND_URL;
@@ -69,7 +82,7 @@ const Color = mongoose.model("Color", colorSchema);
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: String,
-  images: String,
+  images: [String],
   price: String,
   scents: [String],
   colors: [String],
@@ -88,7 +101,7 @@ const orderSchema = new mongoose.Schema({
       name: String,
       price: Number,
       quantity: Number,
-      images: String,
+      images: [String],
       scents: [String],
       color: String,
     },
@@ -98,19 +111,6 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 const Order = mongoose.model("Order", orderSchema);
-
-// ======================
-// Multer (файл хадгалах)
-// ======================
-const uploadDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-
-const storage = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, uploadDir),
-  filename: (_, file, cb) => cb(null, Date.now() + "-" + file.originalname),
-});
-const upload = multer({ storage });
-app.use("/uploads", express.static(uploadDir));
 
 // ======================
 // Nodemailer
@@ -248,10 +248,12 @@ app.get("/api/products", async (_, res) => {
 app.post("/api/products", upload.array("images", 5), async (req, res) => {
   try {
     const { name, description, price, scents, colors, category } = req.body;
-    if (!name || !price)
-      return res.status(400).json({ message: "Нэр, үнэ заавал" });
+    if (!name || !price || !req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "Нэр, үнэ, зураг заавал" });
+    }
 
-    const images = req.files.map((f) => `${BACKEND_URL}/uploads/${f.filename}`);
+    const images = req.files.map((file) => file.path);
+
     const product = new Product({
       name,
       description,
@@ -259,7 +261,7 @@ app.post("/api/products", upload.array("images", 5), async (req, res) => {
       scents: category === "лаа" ? JSON.parse(scents) : [],
       colors: colors ? JSON.parse(colors) : [],
       category,
-      images: images.join(","),
+      images: images,
     });
 
     await product.save();
@@ -283,10 +285,9 @@ app.put("/api/products/:id", upload.array("images", 5), async (req, res) => {
     if (category) product.category = category;
     if (scents) product.scents = JSON.parse(scents);
     if (colors) product.colors = JSON.parse(colors);
-    if (req.files && req.files.length > 0)
-      product.images = req.files
-        .map((f) => `${BACKEND_URL}/uploads/${f.filename}`)
-        .join(",");
+    if (req.files && req.files.length > 0) {
+      product.images = req.files.map((f) => f.path);
+    }
 
     await product.save();
     res.json(product);
@@ -366,7 +367,7 @@ app.post("/api/orders", async (req, res) => {
       name: i.name,
       price: i.price,
       quantity: i.quantity,
-      images: i.images || "",
+      images: i.images || [],
       scents: i.scents || [],
       color: i.color || [],
     }));

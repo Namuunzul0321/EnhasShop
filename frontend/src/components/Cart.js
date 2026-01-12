@@ -278,7 +278,7 @@ export const Cart = () => {
             name: i.name,
             price: Number(i.price),
             quantity: i.quantity,
-            images: i.images || "",
+            images: i.images?.[0] || "",
             scents: i.scents || [],
             color: i.color || "",
           })),
@@ -325,9 +325,10 @@ export const Cart = () => {
             className="flex gap-4 bg-white rounded-xl shadow p-4 mb-4"
           >
             <img
-              src={item.images?.split(",")[0]}
+              src={item.images?.[0]}
               className="w-24 h-24 object-cover rounded"
             />
+
             <div className="flex-1">
               <h3 className="font-semibold">{item.name}</h3>
 

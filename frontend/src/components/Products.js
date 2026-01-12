@@ -9,6 +9,7 @@ export const Products = () => {
   const [selectedScent, setSelectedScent] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [filterCategory, setFilterCategory] = useState("all");
+  const [currentImage, setCurrentImage] = useState(0);
 
   // ======= Edit states =======
   const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
@@ -33,6 +34,9 @@ export const Products = () => {
       console.error(err);
     }
   };
+  useEffect(() => {
+    if (selectedProduct) setCurrentImage(0);
+  }, [selectedProduct]);
 
   useEffect(() => {
     const admin = localStorage.getItem("isAdmin") === "true";
@@ -148,7 +152,7 @@ export const Products = () => {
               )}
 
               <img
-                src={p.images}
+                src={p.images?.[0]}
                 alt={p.name}
                 className="w-full aspect-square object-cover rounded-t-2xl"
               />
@@ -177,16 +181,36 @@ export const Products = () => {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative mt-10">
               <button
-                onClick={() => setSelectedProduct(null)}
+                onClick={() => {
+                  setSelectedProduct(null);
+                  setCurrentImage(0);
+                }}
                 className="absolute top-3 right-3 text-xl"
               >
                 ✖
               </button>
 
+              {/* MAIN IMAGE */}
               <img
-                src={selectedProduct.images}
+                src={selectedProduct.images?.[currentImage]}
                 className="w-full h-75 object-cover rounded-lg mb-4"
               />
+              {/* THUMBNAILS */}
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.images?.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    onClick={() => setCurrentImage(i)}
+                    className={`w-16 h-16 object-cover rounded cursor-pointer border ${
+                      currentImage === i
+                        ? "border-green-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+
               <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
               <p className="text-gray-700">{selectedProduct.description}</p>
               <p className="text-red-500 font-bold mt-2">
