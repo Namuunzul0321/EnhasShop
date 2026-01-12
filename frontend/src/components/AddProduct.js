@@ -29,36 +29,83 @@ export const AddProducts = () => {
   // Fetch scents & colors
   // ======================
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/scents`)
+    fetch(`${BACKEND_URL}/api/scents`, { credentials: "include" })
       .then((res) => res.json())
-      .then(setAllScents)
+      .then((data) => setAllScents(data))
       .catch(() => setAllScents([]));
 
-    fetch(`${BACKEND_URL}/api/colors`)
+    fetch(`${BACKEND_URL}/api/colors`, { credentials: "include" })
       .then((res) => res.json())
-      .then(setAllColors)
+      .then((data) => setAllColors(data))
       .catch(() => setAllColors([]));
   }, []);
 
-  // ======================
-  // Helpers
-  // ======================
-  const toggleScent = (s) => {
-    setNewProduct((p) => ({
-      ...p,
-      scents: p.scents.includes(s)
-        ? p.scents.filter((x) => x !== s)
-        : [...p.scents, s],
+  const toggleScent = (scent) => {
+    setNewProduct((prev) => ({
+      ...prev,
+      scents: prev.scents.includes(scent)
+        ? prev.scents.filter((s) => s !== scent)
+        : [...prev.scents, scent],
     }));
   };
 
-  const toggleColor = (c) => {
-    setNewProduct((p) => ({
-      ...p,
-      colors: p.colors.includes(c)
-        ? p.colors.filter((x) => x !== c)
-        : [...p.colors, c],
+  const toggleColor = (color) => {
+    setNewProduct((prev) => ({
+      ...prev,
+      colors: prev.colors.includes(color)
+        ? prev.colors.filter((c) => c !== color)
+        : [...prev.colors, color],
     }));
+  };
+
+  const addNewScent = async () => {
+    const trimmed = newScent.trim();
+    if (!trimmed) return;
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/scents`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name: trimmed }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Үнэр нэмэхэд алдаа");
+
+      setAllScents((prev) => [...prev, trimmed]);
+      setNewProduct((prev) => ({
+        ...prev,
+        scents: [...prev.scents, trimmed],
+      }));
+      setNewScent("");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const addNewColor = async () => {
+    const trimmed = newColor.trim();
+    if (!trimmed) return;
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/colors`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name: trimmed }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Өнгө нэмэхэд алдаа");
+
+      setAllColors((prev) => [...prev, trimmed]);
+      setNewProduct((prev) => ({
+        ...prev,
+        colors: [...prev.colors, trimmed],
+      }));
+      setNewColor("");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   // ======================
