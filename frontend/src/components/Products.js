@@ -195,7 +195,7 @@ export const Products = () => {
               {/* MAIN IMAGE */}
               <img
                 src={selectedProduct.images?.[currentImage]}
-                className="w-full h-75 object-cover rounded-lg mb-4"
+                className="w-full h-75 object-cover object-center rounded-lg mb-4"
               />
               {/* THUMBNAILS */}
               <div className="flex gap-2 mt-2">
