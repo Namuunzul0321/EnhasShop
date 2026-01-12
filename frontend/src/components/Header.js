@@ -118,9 +118,9 @@ export const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
                 >
-                  👤
+                  👤 Профайл
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded shadow-lg py-2 flex flex-col">

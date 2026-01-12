@@ -111,7 +111,7 @@ export const Products = () => {
               className={`px-4 py-2 rounded-full border ${
                 filterCategory === cat
                   ? "bg-green-500 text-white"
-                  : "bg-white hover:border-green-400"
+                  : "bg-white text-black hover:border-green-400"
               }`}
             >
               {cat === "all" ? "Бүгд" : cat}
