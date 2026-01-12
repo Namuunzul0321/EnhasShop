@@ -97,7 +97,7 @@ export const Header = () => {
 
             <Link
               href="/userOrders"
-              className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition"
+              className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
             >
               Захиалгууд
             </Link>
@@ -149,7 +149,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/sign-in"
-                className="px-4 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition"
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
               >
                 Нэвтрэх
               </Link>
@@ -244,7 +244,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/sign-in"
-                className="w-full p-2 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition text-center"
+                className="w-full p-2 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition text-center"
               >
                 Нэвтрэх
               </Link>
