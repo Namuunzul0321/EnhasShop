@@ -97,9 +97,9 @@ export const Header = () => {
 
             <Link
               href="/userOrders"
-              className="px-3 py-1 bg-green-300 text-white rounded hover:bg-green-400 transition"
+              className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             >
-              Захиалгууд
+              📦
             </Link>
 
             {/* ADMIN BUTTONS */}
@@ -125,9 +125,9 @@ export const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="px-3 py-1 bg-green-300 text-white rounded hover:bg-green-400 transition"
+                  className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
                 >
-                  👤 Профайл
+                  👤
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded shadow-lg py-2 flex flex-col">
@@ -244,7 +244,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/sign-in"
-                className="w-full p-2 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition text-center"
+                className="w-full p-2 py-2 bg-green-400 text-white rounded hover:bg-green-600 transition text-center"
               >
                 Нэвтрэх
               </Link>
