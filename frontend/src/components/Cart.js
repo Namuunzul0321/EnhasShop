@@ -446,9 +446,16 @@ export const Cart = () => {
           />
         </div>
 
-        <div className="text-right text-xl font-bold mt-6">Нийт: {total}₮</div>
+        <div className="text-red-500 text-right text-xl font-bold mt-6">
+          Нийт: {total}₮
+        </div>
         <div className="bg-white rounded-xl shadow p-6 mb-6">
-          <h2 className="font-semibold text-lg mb-2">Дансны мэдээлэл</h2>
+          <div>
+            <h2 className="font-semibold text-lg mb-2">Дансны мэдээлэл</h2>
+            <h2 className="font-semibold text-lg mb-2 text-red-500">
+              (Та төлбөрөө бүрэн шилжүүлсэн тохиолдолд захиалга баталгаажна. )
+            </h2>
+          </div>
 
           <div className="flex items-center justify-between border p-3 rounded mb-2">
             <span>1234 5678 9012 3456</span> {/* Жишээ данс */}
@@ -477,7 +484,7 @@ export const Cart = () => {
           </div>
 
           <div className="flex items-center justify-between border p-3 rounded">
-            <span>Хүлээн авагчийн нэр: Нэр Нэр</span>
+            <span>Хүлээн авагчийн нэр: Namuunzul</span>
             <button
               onClick={() => {
                 navigator.clipboard.writeText("Нэр Нэр");
