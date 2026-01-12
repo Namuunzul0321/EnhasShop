@@ -168,9 +168,83 @@ export const AddProducts = () => {
             </div>
           </div>
 
+          {/* SCENTS */}
+          {newProduct.category === "лаа" && (
+            <div>
+              <p className="font-medium mb-2">🌸 Үнэр сонгох</p>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {allScents.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => toggleScent(s)}
+                    className={`px-4 py-2 border rounded-full ${
+                      newProduct.scents.includes(s)
+                        ? "bg-green-500 text-white"
+                        : "bg-white hover:border-green-400"
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Шинэ үнэр"
+                  value={newScent}
+                  onChange={(e) => setNewScent(e.target.value)}
+                  className="flex-1 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                />
+                <button
+                  onClick={addNewScent}
+                  className="px-4 py-2 bg-green-500 text-white rounded-xl"
+                >
+                  Нэмэх
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* COLORS */}
+          <div>
+            <p className="font-medium mb-2">🎨 Өнгө сонгох</p>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {allColors.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => toggleColor(c)}
+                  className={`px-4 py-2 border rounded-full ${
+                    newProduct.colors.includes(c)
+                      ? "bg-green-500 text-white"
+                      : "bg-white hover:border-green-400"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Шинэ өнгө"
+                value={newColor}
+                onChange={(e) => setNewColor(e.target.value)}
+                className="flex-1 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+              />
+              <button
+                onClick={addNewColor}
+                className="px-4 py-2 bg-green-500 text-white rounded-xl"
+              >
+                Нэмэх
+              </button>
+            </div>
+          </div>
+
           {/* IMAGES */}
           <div>
-            <p className="font-medium mb-2">📷 Зураг (max 5)</p>
+            <p className="font-medium mb-2">📷 Зураг (ихдээ 5 зураг)</p>
             <input
               type="file"
               multiple
