@@ -97,7 +97,7 @@ export const Header = () => {
 
             <Link
               href="/userOrders"
-              className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+              className="px-3 py-1 bg-green-300 text-white rounded hover:bg-green-400 transition"
             >
               Захиалгууд
             </Link>
@@ -125,7 +125,7 @@ export const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                  className="px-3 py-1 bg-green-300 text-white rounded hover:bg-green-400 transition"
                 >
                   👤 Профайл
                 </button>
@@ -191,6 +191,12 @@ export const Header = () => {
               >
                 🛒 Сагс ({cartCount})
               </Link>
+              <Link
+                href="/userOrders"
+                className="flex-1 py-2 rounded bg-gray-200 dark:bg-gray-700 text-center"
+              >
+                Захиалгууд
+              </Link>
             </div>
 
             {isAdmin && (
@@ -205,7 +211,7 @@ export const Header = () => {
                   onClick={() => router.push("/adminOrders")}
                   className="w-full py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
                 >
-                  Захиалгууд
+                  Нийт захиалгууд
                 </button>
               </>
             )}
