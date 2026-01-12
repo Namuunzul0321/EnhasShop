@@ -223,7 +223,7 @@ export const Products = () => {
               {selectedProduct.category === "лаа" && (
                 <div className="mb-4">
                   <p className="font-medium mb-2">🌸 Үнэр сонгох</p>
-                  <div className="flex gap-2 overflow-x-auto scrollbar-1px scrollbar-thumb-gray-400 py-1">
+                  <div className="flex gap-2 overflow-x-auto scrollbar-1px  py-1">
                     {selectedProduct.scents?.map((s) => (
                       <button
                         key={s}
@@ -244,7 +244,7 @@ export const Products = () => {
               {/* Өнгө сонгох */}
               <div className="mb-4">
                 <p className="font-medium mb-2">🎨 Өнгө сонгох</p>
-                <div className="flex gap-2 overflow-x-auto scrollbar-1px scrollbar-thumb-gray-400 py-1">
+                <div className="flex gap-2 overflow-x-auto scrollbar-1px  py-1">
                   {selectedProduct.colors?.map((c) => (
                     <button
                       key={c}

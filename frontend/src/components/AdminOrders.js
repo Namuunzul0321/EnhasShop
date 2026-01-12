@@ -21,18 +21,54 @@ export default function AdminOrders() {
     filterOrders();
   }, [orders, statusFilter]);
 
+  // =====================
+  // Orders fetch
+  // =====================
   const fetchOrders = async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/api/orders`, {
         credentials: "include",
       });
       const data = await res.json();
-      setOrders(data);
+
+      // Product мэдээллийг холбох
+      const enrichedOrders = await Promise.all(
+        data.map(async (order) => {
+          const itemsWithProducts = await Promise.all(
+            order.items.map(async (item) => {
+              if (!item.productId) return item;
+
+              try {
+                const resProduct = await fetch(
+                  `${BACKEND_URL}/api/products/${item.productId}`
+                );
+                if (!resProduct.ok) return item;
+
+                const productData = await resProduct.json();
+                return {
+                  ...item,
+                  images: productData.images || item.images || [],
+                  name: productData.name || item.name,
+                  price: productData.price || item.price,
+                };
+              } catch {
+                return item;
+              }
+            })
+          );
+          return { ...order, items: itemsWithProducts };
+        })
+      );
+
+      setOrders(enrichedOrders);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // =====================
+  // Update order status
+  // =====================
   const updateStatus = async (orderId, newStatus) => {
     try {
       const res = await fetch(`${BACKEND_URL}/api/orders/${orderId}`, {
@@ -48,6 +84,9 @@ export default function AdminOrders() {
     }
   };
 
+  // =====================
+  // View user profile
+  // =====================
   const viewUserProfile = async (email) => {
     try {
       setLoadingUser(true);
@@ -167,7 +206,7 @@ export default function AdminOrders() {
                       className="flex items-center gap-4 border p-2 rounded"
                     >
                       <img
-                        src={item.images?.split(",")[0]}
+                        src={item.images?.[0]}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded"
                       />

@@ -209,7 +209,7 @@ export const Header = () => {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="w-full py-2 bg-gray-200 dark:bg-gray-700 rounded text-left flex justify-center items-center"
                 >
-                  👤
+                  👤 Профайл
                 </button>
                 {dropdownOpen && (
                   <div className="mt-2 bg-white dark:bg-gray-800 rounded shadow-lg flex flex-col">
