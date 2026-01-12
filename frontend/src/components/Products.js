@@ -181,7 +181,7 @@ export const Products = () => {
         {/* PRODUCT DETAIL MODAL */}
         {selectedProduct && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative mt-10">
+            <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative mt-25">
               <button
                 onClick={() => {
                   setSelectedProduct(null);
@@ -191,29 +191,26 @@ export const Products = () => {
               >
                 ✖
               </button>
-              <div className="flex">
-                {/* MAIN IMAGE */}
-                <div>
+
+              {/* MAIN IMAGE */}
+              <img
+                src={selectedProduct.images?.[currentImage]}
+                className="w-full h-75 object-cover object-center rounded-lg mb-4"
+              />
+              {/* THUMBNAILS */}
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.images?.map((img, i) => (
                   <img
-                    src={selectedProduct.images?.[currentImage]}
-                    className="w-full h-75 object-cover object-center rounded-lg mb-4"
+                    key={i}
+                    src={img}
+                    onClick={() => setCurrentImage(i)}
+                    className={`w-16 h-16 object-cover rounded cursor-pointer border ${
+                      currentImage === i
+                        ? "border-green-500"
+                        : "border-gray-300"
+                    }`}
                   />
-                </div>
-                {/* THUMBNAILS */}
-                <div className="flex gap-2 mt-2">
-                  {selectedProduct.images?.map((img, i) => (
-                    <img
-                      key={i}
-                      src={img}
-                      onClick={() => setCurrentImage(i)}
-                      className={`w-16 h-16 object-cover rounded cursor-pointer border ${
-                        currentImage === i
-                          ? "border-green-500"
-                          : "border-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
+                ))}
               </div>
 
               <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
