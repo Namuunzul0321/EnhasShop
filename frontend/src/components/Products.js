@@ -271,7 +271,6 @@ export const Products = () => {
           </div>
         )}
 
-        {/* EDIT MODAL */}
         {selectedProductForEdit && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-2xl max-w-xl w-full p-6 relative">
@@ -326,10 +325,9 @@ export const Products = () => {
                   className="border p-2 rounded"
                 />
 
-                {/* Зураг preview + устгах */}
+                {/* Хуучин зургууд */}
                 <div className="flex gap-2 flex-wrap mt-2">
-                  {/* Хуучин зургууд */}
-                  {existingImages.map((img, i) => (
+                  {selectedProductForEdit.images?.map((img, i) => (
                     <div key={i} className="relative">
                       <img
                         src={img}
@@ -337,9 +335,10 @@ export const Products = () => {
                       />
                       <button
                         onClick={() =>
-                          setExistingImages((prev) =>
-                            prev.filter((_, idx) => idx !== i)
-                          )
+                          setSelectedProductForEdit((prev) => ({
+                            ...prev,
+                            images: prev.images.filter((_, idx) => idx !== i),
+                          }))
                         }
                         className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1"
                       >
@@ -372,7 +371,10 @@ export const Products = () => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => setEditImages(e.target.files)}
+                  onChange={(e) => {
+                    const filesArray = Array.from(e.target.files);
+                    setEditImages((prev) => [...prev, ...filesArray]);
+                  }}
                 />
 
                 <button
@@ -384,11 +386,14 @@ export const Products = () => {
                     formData.append("category", editCategory);
                     formData.append("scents", JSON.stringify(editScents));
                     formData.append("colors", JSON.stringify(editColors));
+
+                    // Хуучин зургуудыг хадгалах
                     formData.append(
                       "existingImages",
-                      JSON.stringify(existingImages)
+                      JSON.stringify(selectedProductForEdit.images)
                     );
 
+                    // Шинэ зургуудыг нэмэх
                     for (let i = 0; i < editImages.length; i++) {
                       formData.append("images", editImages[i]);
                     }
@@ -407,6 +412,7 @@ export const Products = () => {
                         )
                       );
                       setSelectedProductForEdit(null);
+                      setEditImages([]);
                       alert("Бүтээгдэхүүн амжилттай засагдлаа");
                     } catch (err) {
                       alert(err.message);
