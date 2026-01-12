@@ -29,21 +29,15 @@ export const AddProducts = () => {
   // Fetch scents & colors
   // ======================
   useEffect(() => {
-    fetch(`${BACKEND_URL}/api/scents`),
-      {
-        credentials: "include",
-      }
-        .then((res) => res.json())
-        .then(setAllScents)
-        .catch(() => setAllScents([]));
+    fetch(`${BACKEND_URL}/api/scents`)
+      .then((res) => res.json())
+      .then(setAllScents)
+      .catch(() => setAllScents([]));
 
-    fetch(`${BACKEND_URL}/api/colors`),
-      {
-        credentials: "include",
-      }
-        .then((res) => res.json())
-        .then(setAllColors)
-        .catch(() => setAllColors([]));
+    fetch(`${BACKEND_URL}/api/colors`)
+      .then((res) => res.json())
+      .then(setAllColors)
+      .catch(() => setAllColors([]));
   }, []);
 
   // ======================
