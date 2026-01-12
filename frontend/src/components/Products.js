@@ -14,6 +14,7 @@ export const Products = () => {
   // ======= Edit states =======
   const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
   const [editImages, setEditImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]); // Хуучин зургууд
   const [editName, setEditName] = useState("");
   const [editPrice, setEditPrice] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -143,6 +144,7 @@ export const Products = () => {
                       setEditColors(p.colors || []);
                       setEditCategory(p.category);
                       setEditImages([]);
+                      setExistingImages(p.images || []);
                     }}
                     className="absolute top-10 right-2 z-50 bg-blue-500 text-white px-3 py-1 rounded font-semibold hover:bg-blue-600 shadow"
                   >
@@ -323,11 +325,56 @@ export const Products = () => {
                   placeholder="Өнгөнүүд (comma separated)"
                   className="border p-2 rounded"
                 />
+
+                {/* Зураг preview + устгах */}
+                <div className="flex gap-2 flex-wrap mt-2">
+                  {/* Хуучин зургууд */}
+                  {existingImages.map((img, i) => (
+                    <div key={i} className="relative">
+                      <img
+                        src={img}
+                        className="w-20 h-20 object-cover rounded border"
+                      />
+                      <button
+                        onClick={() =>
+                          setExistingImages((prev) =>
+                            prev.filter((_, idx) => idx !== i)
+                          )
+                        }
+                        className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1"
+                      >
+                        ✖
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Шинэ upload зургууд */}
+                  {Array.from(editImages).map((file, i) => (
+                    <div key={i} className="relative">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        className="w-20 h-20 object-cover rounded border"
+                      />
+                      <button
+                        onClick={() =>
+                          setEditImages((prev) =>
+                            Array.from(prev).filter((_, idx) => idx !== i)
+                          )
+                        }
+                        className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1"
+                      >
+                        ✖
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
                 <input
                   type="file"
                   multiple
                   onChange={(e) => setEditImages(e.target.files)}
                 />
+
                 <button
                   onClick={async () => {
                     const formData = new FormData();
@@ -337,6 +384,11 @@ export const Products = () => {
                     formData.append("category", editCategory);
                     formData.append("scents", JSON.stringify(editScents));
                     formData.append("colors", JSON.stringify(editColors));
+                    formData.append(
+                      "existingImages",
+                      JSON.stringify(existingImages)
+                    );
+
                     for (let i = 0; i < editImages.length; i++) {
                       formData.append("images", editImages[i]);
                     }
