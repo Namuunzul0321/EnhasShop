@@ -125,7 +125,7 @@ export const Header = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                  className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
                 >
                   Профайл
                 </button>
@@ -133,13 +133,13 @@ export const Header = () => {
                   <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded shadow-lg py-2 flex flex-col">
                     <Link
                       href="/profile"
-                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                      className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                       Профайл
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                      className="px-3 py-1 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                       Гарах
                     </button>
@@ -149,7 +149,7 @@ export const Header = () => {
             ) : (
               <Link
                 href="/sign-in"
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
               >
                 Нэвтрэх
               </Link>
